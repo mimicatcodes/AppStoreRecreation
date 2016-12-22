@@ -2,7 +2,7 @@
 //  CategoryCell.swift
 //  AppStoreRecreation
 //
-//  Created by Mirim An on 12/21/16.
+//  Created by Luna An on 12/21/16.
 //  Copyright © 2016 Mimicatcodes. All rights reserved.
 //
 
@@ -23,8 +23,16 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDelegate, UICollection
         fatalError("init(coder:) has not been implemented")
     }
     
+    let nameLabel : UILabel = {
+        let label = UILabel()
+        label.text = "Best New Apps"
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     // Initialize a collection view
-    var appsCollectionView: UICollectionView = {
+    let appsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
@@ -34,19 +42,30 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDelegate, UICollection
         return collectionView
     }()
     
+    let dividerLineView : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(white: 0.4, alpha: 0.4)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     func setUpViews(){
         backgroundColor = UIColor.clear
         
         // Add the collection view 
+        addSubview(nameLabel)
         addSubview(appsCollectionView)
+        addSubview(dividerLineView)
         
         appsCollectionView.dataSource = self
         appsCollectionView.delegate = self
         
         appsCollectionView.register(AppCell.self, forCellWithReuseIdentifier: cellId)
         
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-14-[v0]|", options: [], metrics: nil, views: ["v0":nameLabel]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-14-[v0]|", options: [], metrics: nil, views: ["v0":dividerLineView]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[nameLabel(30)][v0][v1(0.5)]|", options: [], metrics: nil, views: ["v0":appsCollectionView, "v1":dividerLineView, "nameLabel":nameLabel]))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: [], metrics: nil, views: ["v0":appsCollectionView]))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: [], metrics: nil, views: ["v0":appsCollectionView]))
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -59,7 +78,13 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDelegate, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: frame.height) // frame property is available in cell
+        return CGSize(width: 100, height: frame.height - 30)
+        // frame property is available in cell
+        // minused 30 due to the name label above
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
     }
 }
 
@@ -78,13 +103,47 @@ class AppCell:UICollectionViewCell {
         let imgView = UIImageView()
         imgView.image = UIImage(named: "luna_icon")
         imgView.contentMode = .scaleAspectFill
+        imgView.layer.cornerRadius = 16
+        imgView.layer.masksToBounds = true
+
         return imgView
+    }()
+    
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Luna, the Lunar Calendar"
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.numberOfLines = 2
+        return label
+    }()
+    
+    let categoryLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Lifestyle"
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.numberOfLines = 2
+        return label
+    }()
+    
+    let priceLabel: UILabel = {
+        let label = UILabel()
+        label.text = "$2.99"
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = UIColor.darkGray
+        return label
     }()
     
     func setUpViews(){
         //backgroundColor = UIColor.black
         addSubview(imageView)
-        imageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.width)
+        addSubview(titleLabel)
+        addSubview(categoryLabel)
+        addSubview(priceLabel)
+        
+        imageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.width) // 1:1 ratio for an icon
+        titleLabel.frame = CGRect(x: 0, y: frame.width + 2, width: frame.width, height: 40)
+        categoryLabel.frame = CGRect(x: 0, y: frame.width + 42, width: frame.width, height: 20)
+        priceLabel.frame = CGRect(x: 0, y: frame.width + 56, width: frame.width, height: 20)
     }
     
 }
