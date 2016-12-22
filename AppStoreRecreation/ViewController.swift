@@ -2,13 +2,13 @@
 //  ViewController.swift
 //  AppStoreRecreation
 //
-//  Created by Mirim An on 12/21/16.
+//  Created by Luna An on 12/21/16.
 //  Copyright © 2016 Mimicatcodes. All rights reserved.
 //
 
 import UIKit
 
-class FeaturedAppsController: UICollectionViewController {
+class FeaturedAppsController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     let cellId = "cellId"
     override func viewDidLoad() {
@@ -28,25 +28,11 @@ class FeaturedAppsController: UICollectionViewController {
         return 3
     }
 
+    // UICollectionViewDelegateFlowLayout
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 150)
+    }
 
 
-}
-
-class CategoryCell: UICollectionViewCell {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setUpViews()
-        
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setUpViews(){
-        backgroundColor = UIColor.red
-        
-    }
 }
 

@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  AppStoreRecreation
 //
-//  Created by Mirim An on 12/21/16.
+//  Created by Luna An on 12/21/16.
 //  Copyright © 2016 Mimicatcodes. All rights reserved.
 //
 
